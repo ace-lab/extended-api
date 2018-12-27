@@ -1,0 +1,47 @@
+<%= form_with(model: snapshot, local: true) do |form| %>
+  <% if snapshot.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(snapshot.errors.count, "error") %> prohibited this snapshot from being saved:</h2>
+
+      <ul>
+      <% snapshot.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :origin %>
+    <%= form.text_field :origin %>
+  </div>
+
+  <div class="field">
+    <%= form.label :data_name %>
+    <%= form.text_field :data_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :query %>
+    <%= form.text_field :query %>
+  </div>
+
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div class="field">
+    <%= form.label :headers %>
+    <%= form.text_area :headers %>
+  </div>
+
+  <div class="field">
+    <%= form.label :taken_at %>
+    <%= form.datetime_select :taken_at %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

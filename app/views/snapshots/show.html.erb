@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Origin:</strong>
+  <%= @snapshot.origin %>
+</p>
+
+<p>
+  <strong>Data name:</strong>
+  <%= @snapshot.data_name %>
+</p>
+
+<p>
+  <strong>Query:</strong>
+  <%= @snapshot.query %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @snapshot.content %>
+</p>
+
+<p>
+  <strong>Headers:</strong>
+  <%= @snapshot.headers %>
+</p>
+
+<p>
+  <strong>Taken at:</strong>
+  <%= @snapshot.taken_at %>
+</p>
+
+<%= link_to 'Edit', edit_snapshot_path(@snapshot) %> |
+<%= link_to 'Back', snapshots_path %>
