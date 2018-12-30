@@ -11,7 +11,7 @@ class Snapshot < ApplicationRecord
       activities = tracker_activities params[:tracker_project]
 
       stories = tracker_stories params[:tracker_project]
-      tracker_stories_reverse stories, activities, params[:tracker_project]
+      tracker_stories_reverse stories, activities
     end
 
     # collect stories
