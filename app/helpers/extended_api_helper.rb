@@ -1,0 +1,2 @@
+module ExtendedApiHelper
+end
