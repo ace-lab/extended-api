@@ -16,7 +16,7 @@ class Snapshot < ApplicationRecord
 
     # collect stories
     def tracker_stories(project)
-      snapshot = Snapshot.where(query: "projects/#{project}/stories")
+      snapshot = where(query: "projects/#{project}/stories")
       return JSON.parse(snapshot.last.content, symbolize_names: true) unless snapshot.empty?
 
       resp = @conn.get("projects/#{project}/stories")
@@ -32,7 +32,7 @@ class Snapshot < ApplicationRecord
 
     # collect activities
     def tracker_activities(project)
-      snapshot = Snapshot.where(query: "projects/#{project}/activity")
+      snapshot = where(query: "projects/#{project}/activity")
       return JSON.parse(snapshot.last.content, symbolize_names: true) unless snapshot.empty?
 
       resp = @conn.get("projects/#{project}/activity")

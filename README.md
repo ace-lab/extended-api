@@ -1,24 +1,21 @@
-# README
+# Features
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This service collects data from Pivotal Tracker.
+It extends Pivotal Tracker's APIs by returning a historical snapshots of the endpoints.
 
-Things you may want to cover:
+Currently supported endpoints
 
-* Ruby version
+- [Stories](https://www.pivotaltracker.com/help/api/rest/v5#Stories)
 
-* System dependencies
+# Test
+## Stubs
 
-* Configuration
+We use [a demo project](https://www.pivotaltracker.com/n/projects/2200655) for testing.
+You can change the returned values by replacing fixtures under `spec/fixtures/files`.
 
-* Database creation
+Current files are created from data fetched on 2018/12/30.
 
-* Database initialization
+# Tech Log
+## Testing
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Use [Webmock](https://github.com/bblimke/webmock) to stub API queries.
