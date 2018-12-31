@@ -1,0 +1,53 @@
+{
+  "kind": "story_update_activity",
+  "guid": "2200655_49",
+  "project_version": 49,
+  "message": "An Ju edited this feature",
+  "highlight": "edited",
+  "changes": [
+    {
+      "kind": "story",
+      "change_type": "update",
+      "id": 160837072,
+      "original_values": {
+        "owner_ids": [
+          1140314
+        ],
+        "updated_at": "2018-12-17T19:03:09Z"
+      },
+      "new_values": {
+        "owner_ids": [
+          1140314,
+          2996252
+        ],
+        "updated_at": "2018-12-17T19:03:19Z"
+      },
+      "name": "Demo Story 2",
+      "story_type": "feature"
+    }
+  ],
+  "primary_resources": [
+    {
+      "kind": "story",
+      "id": 160837072,
+      "name": "Demo Story 2",
+      "story_type": "feature",
+      "url": "https://www.pivotaltracker.com/story/show/160837072"
+    }
+  ],
+  "secondary_resources": [
+
+  ],
+  "project": {
+    "kind": "project",
+    "id": 2200655,
+    "name": "Demo Project"
+  },
+  "performed_by": {
+    "kind": "person",
+    "id": 1140314,
+    "name": "An Ju",
+    "initials": "AJ"
+  },
+  "occurred_at": "2018-12-17T19:03:19Z"
+}

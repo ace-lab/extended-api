@@ -11,9 +11,11 @@ Currently supported endpoints
 ## Stubs
 
 We use [a demo project](https://www.pivotaltracker.com/n/projects/2200655) for testing.
-You can change the returned values by replacing fixtures under `spec/fixtures/files`.
+The values can be found in `spec/fixtures/files`.
 
 Current files are created from data fetched on 2018/12/30.
+
+**Tests check values in the fixture files.  You should not change the files.**
 
 # Tech Log
 ## Testing

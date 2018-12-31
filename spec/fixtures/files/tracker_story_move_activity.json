@@ -1,0 +1,50 @@
+{
+  "kind": "story_move_activity",
+  "guid": "2200655_47",
+  "project_version": 47,
+  "message": "An Ju moved this story before 'Release 1'",
+  "highlight": "moved",
+  "changes": [
+    {
+      "kind": "story",
+      "change_type": "update",
+      "id": 160837077,
+      "original_values": {
+        "updated_at": "2018-12-17T19:00:00Z",
+        "before_id": 160837072,
+        "after_id": 160837087
+      },
+      "new_values": {
+        "updated_at": "2018-12-17T19:00:02Z",
+        "before_id": 160837100,
+        "after_id": 160837072
+      },
+      "name": "Demo story 3",
+      "story_type": "feature"
+    }
+  ],
+  "primary_resources": [
+    {
+      "kind": "story",
+      "id": 160837077,
+      "name": "Demo story 3",
+      "story_type": "feature",
+      "url": "https://www.pivotaltracker.com/story/show/160837077"
+    }
+  ],
+  "secondary_resources": [
+
+  ],
+  "project": {
+    "kind": "project",
+    "id": 2200655,
+    "name": "Demo Project"
+  },
+  "performed_by": {
+    "kind": "person",
+    "id": 1140314,
+    "name": "An Ju",
+    "initials": "AJ"
+  },
+  "occurred_at": "2018-12-17T19:00:02Z"
+}
