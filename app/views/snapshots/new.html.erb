@@ -4,16 +4,16 @@
 
   <div class="field">
     <%= form.label :tracker_project %>
-    <%= form.text_field :tracker_project %>
+    <%= form.text_field :tracker_project, id: 'tracker_project'%>
   </div>
 
   <div class="field">
     <%= form.label :tracker_token %>
-    <%= form.text_field :tracker_token %>
+    <%= form.text_field :tracker_token, id: 'tracker_token' %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Submit' %>
   </div>
 <% end %>
 

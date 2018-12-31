@@ -11,12 +11,12 @@ class Snapshot < ApplicationRecord
       activities = tracker_activities params[:tracker_project]
 
       stories = tracker_stories params[:tracker_project]
-      tracker_stories_reverse stories, activities, params[:tracker_project]
+      tracker_stories_reverse stories, activities
     end
 
     # collect stories
     def tracker_stories(project)
-      snapshot = Snapshot.where(query: "projects/#{project}/stories")
+      snapshot = where(query: "projects/#{project}/stories")
       return JSON.parse(snapshot.last.content, symbolize_names: true) unless snapshot.empty?
 
       resp = @conn.get("projects/#{project}/stories")
@@ -32,7 +32,7 @@ class Snapshot < ApplicationRecord
 
     # collect activities
     def tracker_activities(project)
-      snapshot = Snapshot.where(query: "projects/#{project}/activity")
+      snapshot = where(query: "projects/#{project}/activity")
       return JSON.parse(snapshot.last.content, symbolize_names: true) unless snapshot.empty?
 
       resp = @conn.get("projects/#{project}/activity")
@@ -49,25 +49,32 @@ class Snapshot < ApplicationRecord
     # get tracker stories at a given time
     def tracker_stories_at(project, time_at)
       stories = tracker_stories project
-      activities = tracker_activities(project).select { |el| el[:occurred_at] > time_at }
-
-      # Reuse if previously queried
-      last_activity = activities.last
-      query_str = "extended_api/projects/#{project}/stories?before_id=#{last_activity[:guid]}"
-      snapshot = Snapshot.where(query: query_str)
-      return snapshot.last.content unless snapshot.empty?
+      activities = tracker_activities(project).select { |el| Time.iso8601(el[:occurred_at]) > time_at }
+      snapshot = reuse_snapshot(activities.last, project)
+      return JSON.parse(snapshot.content, symbolize_names: true) unless snapshot.nil?
 
       reversed_stories = tracker_stories_reverse(stories, activities)
-      unless last_activity.nil?
-        create(origin: 'pivotal_tracker',
-               data_name: 'activities',
-               project_id: project,
-               query: query_str,
-               content: reversed_stories.to_json,
-               taken_at: time_at)
-      end
-
+      create(origin: 'pivotal_tracker',
+             data_name: 'activities',
+             project_id: project,
+             query: create_query_str(activities.last, project),
+             content: reversed_stories.to_json,
+             taken_at: time_at)
       reversed_stories
+    end
+
+    def reuse_snapshot(last_activity, project)
+      query_str = create_query_str(last_activity, project)
+      Snapshot.where(query: query_str).last
+    end
+
+    # Look for previous saved snapshots
+    def create_query_str(last_activity, project)
+      if last_activity.nil?
+        "projects/#{project}/stories"
+      else
+        "extended_api/projects/#{project}/stories?before_id=#{last_activity[:guid]}"
+      end
     end
 
     # reverse stories
@@ -89,8 +96,8 @@ class Snapshot < ApplicationRecord
     # reverse story_update_activity
     def reverse_story_update(stories, action)
       action[:changes].each do |change|
-        story = stories.find { |s| s[:id].eql? change[:id] }
-        story.update change[:original_values]
+        story_ind = stories.find_index { |s| s[:id].eql? change[:id] }
+        stories[story_ind].update change[:original_values]
       end
       stories
     end
