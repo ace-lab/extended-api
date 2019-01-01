@@ -1,0 +1,67 @@
+{
+  "kind": "story_create_activity",
+  "guid": "2200655_28",
+  "project_version": 28,
+  "message": "An Ju added this feature",
+  "highlight": "added",
+  "changes": [
+    {
+      "kind": "story",
+      "change_type": "create",
+      "id": 162710886,
+      "new_values": {
+        "id": 162710886,
+        "project_id": 2200655,
+        "name": "Demo story",
+        "story_type": "feature",
+        "current_state": "unscheduled",
+        "requested_by_id": 1140314,
+        "owner_ids": [
+
+        ],
+        "label_ids": [
+
+        ],
+        "follower_ids": [
+
+        ],
+        "created_at": "2018-12-17T18:40:19Z",
+        "updated_at": "2018-12-17T18:40:19Z",
+        "before_id": 161909121,
+        "after_id": 160837109,
+        "blocked_story_ids": [
+
+        ],
+        "labels": [
+
+        ]
+      },
+      "name": "Demo story",
+      "story_type": "feature"
+    }
+  ],
+  "primary_resources": [
+    {
+      "kind": "story",
+      "id": 162710886,
+      "name": "Demo story",
+      "story_type": "feature",
+      "url": "https://www.pivotaltracker.com/story/show/162710886"
+    }
+  ],
+  "secondary_resources": [
+
+  ],
+  "project": {
+    "kind": "project",
+    "id": 2200655,
+    "name": "Demo Project"
+  },
+  "performed_by": {
+    "kind": "person",
+    "id": 1140314,
+    "name": "An Ju",
+    "initials": "AJ"
+  },
+  "occurred_at": "2018-12-17T18:40:19Z"
+}

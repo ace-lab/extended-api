@@ -31,7 +31,7 @@ RSpec.describe Snapshot, type: :model do
     end
   end
 
-  context 'reverse a story update activity' do
+  context 'reverse_story_update' do
     it 'reverses story update activity' do
       reversed_stories = described_class.reverse_story_update(stories, update_activity)
       updated_story = reversed_stories.find { |el| el[:id].eql? 160837072 }
@@ -51,6 +51,28 @@ RSpec.describe Snapshot, type: :model do
 
       expect(@s1).to receive(:update).with('test')
       described_class.reverse_story_update(@stub_stories, @activity)
+    end
+  end
+
+  context 'reverse_story_move' do
+    it 'reverses story move activity' do
+      moved_story_id = move_activity[:primary_resources].first[:id]
+      expect { described_class.reverse_story_move(stories, move_activity) }
+          .to change { stories.find_index { |el| el[:id].eql? moved_story_id }}.by(-1)
+    end
+  end
+
+  context 'reverse_story_create' do
+    it 'reverses story create activity' do
+      expect { described_class.reverse_story_create(stories, create_activity)}
+        .to change { stories.length }.by(-1)
+    end
+  end
+
+  context 'reverse_story_delete' do
+    it 'reverses the story delete activity' do
+      expect { described_class.reverse_story_delete(stories, delete_activity)}
+        .to change { stories.length }.by(1)
     end
   end
 end
