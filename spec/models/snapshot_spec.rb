@@ -39,8 +39,12 @@ RSpec.describe Snapshot, type: :model do
 
     it 'gives the right results' do
       curr_stories = described_class.replay_stories_at(1, Time.now.to_i)
-      expected_order = JSON.parse(file_fixture('tracker_stories.json').read).map { |el| el['id'] }
+      expected_stories = JSON.parse(file_fixture('tracker_stories.json').read)
+      expected_order = expected_stories.map { |el| el['id'] }
+      expected_owners = expected_stories.map { |el| el['owner_ids']}
+
       expect(curr_stories.map { |el| el[:id] }).to eq(expected_order)
+      expect(curr_stories.map { |el| el[:owner_ids] }).to eq(expected_owners)
     end
   end
 
