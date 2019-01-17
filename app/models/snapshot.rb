@@ -46,6 +46,17 @@ class Snapshot < ApplicationRecord
       JSON.parse(resp.body, symbolize_names: true)
     end
 
+    # get the view of stories by replay
+    def replay_stories_at(project, time_at)
+      activities = tracker_activities(project).select { |el| Time.iso8601(el[:occurred_at]) < time_at}
+      snapshot = reuse_snapshot(activities.first, project)
+      return JSON.parse(snapshot.content, symbolize_names: true) unless snapshot.nil?
+
+      replay = TrackerReplay::Replay.new(activities)
+      replay.replay
+      replay.stories
+    end
+
     # get tracker stories at a given time
     def tracker_stories_at(project, time_at)
       stories = tracker_stories project
