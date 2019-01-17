@@ -31,6 +31,19 @@ RSpec.describe Snapshot, type: :model do
     end
   end
 
+  context 'replay_stories_at' do
+    before :each do
+      stub_tracker
+      described_class.create_tracker(tracker_token: 'test', tracker_project: 1)
+    end
+
+    it 'gives the right results' do
+      curr_stories = described_class.replay_stories_at(1, Time.now.to_i)
+      expected_order = JSON.parse(file_fixture('tracker_stories.json').read).map { |el| el['id'] }
+      expect(curr_stories.map { |el| el[:id] }).to eq(expected_order)
+    end
+  end
+
   context 'reverse_story_update' do
     it 'reverses story update activity' do
       reversed_stories = described_class.reverse_story_update(stories, update_activity)
