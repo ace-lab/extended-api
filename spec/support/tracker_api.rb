@@ -10,8 +10,11 @@ module TrackerApi
   end
 
   def stub_activities
-    stub_request(:get, 'https://www.pivotaltracker.com/services/v5/projects/1/activity')
-        .to_return(body: file_fixture('tracker_activities.json').read)
+    stub_request(:get, 'https://www.pivotaltracker.com/services/v5/projects/1/activity?limit=1000')
+        .to_return(body: file_fixture('tracker_activities.json').read,
+                   headers: { 'X-Tracker-Pagination-Offset' => 0,
+                              'X-Tracker-Pagination-Returned' => 20,
+                              'X-Tracker-Pagination-Total' => 20 })
   end
 
   def t_before_second_activity

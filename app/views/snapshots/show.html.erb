@@ -17,7 +17,11 @@
 
 <p>
   <strong>Content:</strong>
-  <%= @snapshot.content %>
+  <ul>
+    <%- JSON.parse(@snapshot.content).each do |item| %>
+      <li><%= item %></li>
+    <% end %>
+  </ul>
 </p>
 
 <p>

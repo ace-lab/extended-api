@@ -23,13 +23,7 @@
         <td><%= snapshot.data_name %></td>
         <td><%= snapshot.project_id %></td>
         <td><%= snapshot.query %></td>
-        <td>
-          <ul>
-            <%- JSON.parse(snapshot.content).each do |item| %>
-              <li> <%= item %></li>
-            <% end %>
-          </ul>
-        </td>
+        <td><%= JSON.parse(snapshot.content).length %></td>
         <td>
           <%= snapshot.headers %>
         </td>

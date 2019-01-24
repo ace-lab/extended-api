@@ -8,10 +8,8 @@ class Snapshot < ApplicationRecord
       @conn.headers['Content-Type'] = 'application/json'
       @conn.headers['X-TrackerToken'] = params[:tracker_token]
 
-      activities = tracker_activities params[:tracker_project]
-
-      stories = tracker_stories params[:tracker_project]
-      tracker_stories_reverse stories, activities
+      tracker_activities params[:tracker_project]
+      tracker_stories params[:tracker_project]
     end
 
     # collect stories
@@ -35,15 +33,23 @@ class Snapshot < ApplicationRecord
       snapshot = where(query: "projects/#{project}/activity")
       return JSON.parse(snapshot.last.content, symbolize_names: true) unless snapshot.empty?
 
-      resp = @conn.get("projects/#{project}/activity")
+      resp = @conn.get("projects/#{project}/activity?limit=1000")
+      stories = JSON.parse(resp.body, symbolize_names: true)
+      next_ind = next_page(resp)
+      while next_ind.positive? do
+        resp = @conn.get("projects/#{project}/activity?limit=1000&offset=#{next_ind}")
+        stories += JSON.parse(resp.body, symbolize_names: true)
+        next_ind = next_page(resp)
+      end
+
       create(origin: 'pivotal_tracker',
              data_name: 'activities',
              project_id: project,
              query: "projects/#{project}/activity",
-             content: resp.body,
+             content: stories.to_json,
              headers: resp.headers.to_json,
              taken_at: Time.now)
-      JSON.parse(resp.body, symbolize_names: true)
+      stories
     end
 
     # get the view of stories by replay
@@ -148,6 +154,15 @@ class Snapshot < ApplicationRecord
         stories.push story
       end
       stories
+    end
+
+    # Check if activities endpoint has next page
+    def next_page(resp)
+      offset = resp.headers['X-Tracker-Pagination-Offset'].to_i
+      returned = resp.headers['X-Tracker-Pagination-Returned'].to_i
+      total = resp.headers['X-Tracker-Pagination-Total'].to_i
+
+      offset + returned >= total ? -1 : offset + returned
     end
 
   end
