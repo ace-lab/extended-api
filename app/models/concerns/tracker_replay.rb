@@ -19,16 +19,22 @@ module TrackerReplay
     end
 
     def story_update_activity(act)
+      sid = act[:primary_resources].first[:id]
       act[:changes].each do |change|
-        story_ind = @stories.find_index { |s| s[:id].eql? change[:id] }
+        next unless change[:id].eql? sid
+
+        story_ind = @stories.find_index { |s| s[:id].eql? sid }
         @stories[story_ind].update change[:new_values]
         reorder_story(story_ind)
       end
     end
 
     def story_move_activity(act)
+      sid = act[:primary_resources].first[:id]
       act[:changes].each do |change|
-        story_ind = @stories.find_index { |s| s[:id].eql? change[:id] }
+        next unless change[:id].eql? sid
+
+        story_ind = @stories.find_index { |s| s[:id].eql? sid }
         @stories[story_ind].update change[:new_values]
         reorder_story(story_ind)
       end
@@ -36,6 +42,8 @@ module TrackerReplay
 
     def story_create_activity(act)
       act[:changes].each do |change|
+        next unless change[:kind].eql? 'story'
+
         @stories.push(change[:new_values])
         reorder_story(@stories.length - 1)
       end
