@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :snapshots
+  resources :snapshots do
+    collection do
+      get 'api_spec'
+    end
+  end
   resource :extended_api, only: [] do
     get 'projects/:pid/stories', as: 'stories', to: 'extended_api#stories'
   end
