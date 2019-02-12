@@ -58,6 +58,19 @@ class SnapshotsController < ApplicationController
     end
   end
 
+  # GET /snapshots/api_spec
+  # GET /snapshots/api_spec.json
+  def api_spec
+    snapshot = Snapshot.find_by(project_id: params[:project_id],
+                                data_name: 'activities',
+                                origin: 'pivotal_tracker')
+    if snapshot.nil?
+      render json: { ready: false }
+    else
+      render json: { ready: true }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
