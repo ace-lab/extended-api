@@ -1,16 +1,16 @@
 module TrackerApi
-  def stub_tracker
-    stub_stories
-    stub_activities
+  def stub_tracker(pid = 1)
+    stub_stories pid
+    stub_activities pid
   end
 
-  def stub_stories
-    stub_request(:get, 'https://www.pivotaltracker.com/services/v5/projects/1/stories')
+  def stub_stories(pid)
+    stub_request(:get, "https://www.pivotaltracker.com/services/v5/projects/#{pid}/stories")
         .to_return(body: file_fixture('tracker_stories.json').read)
   end
 
-  def stub_activities
-    stub_request(:get, 'https://www.pivotaltracker.com/services/v5/projects/1/activity?limit=1000')
+  def stub_activities(pid)
+    stub_request(:get, "https://www.pivotaltracker.com/services/v5/projects/#{pid}/activity?limit=1000")
         .to_return(body: file_fixture('tracker_activities.json').read,
                    headers: { 'X-Tracker-Pagination-Offset' => 0,
                               'X-Tracker-Pagination-Returned' => 20,
