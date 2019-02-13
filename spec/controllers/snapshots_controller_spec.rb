@@ -34,11 +34,11 @@ RSpec.describe SnapshotsController, type: :controller do
   # Snapshot. As you add validations to Snapshot, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { snapshot: { tracker_project: 1, tracker_token: 'test' }}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { snapshot: { tracker_project: 1 } }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -48,9 +48,8 @@ RSpec.describe SnapshotsController, type: :controller do
 
   describe 'GET /snapshots/1/api_spec' do
     before :each do
-      stub_stories
-      stub_activities
-      Snapshot.create_tracker({ tracker_project: 1, tracker_token: 'test' })
+      stub_tracker
+      Snapshot.create_tracker(tracker_project: 1, tracker_token: 'test')
     end
 
     it 'returns true if the project is set up' do
@@ -64,4 +63,16 @@ RSpec.describe SnapshotsController, type: :controller do
     end
   end
 
+  describe 'POST /snapshots' do
+    before :each do
+      stub_tracker(1)
+      stub_tracker(2)
+      Snapshot.create_tracker(tracker_project: 2, tracker_token: 'test')
+    end
+
+    it 'creates a new project with valid parameters' do
+      expect { post :create, params: valid_attributes }.to(change { Snapshot.count })
+    end
+
+  end
 end

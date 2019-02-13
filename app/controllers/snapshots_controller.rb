@@ -27,9 +27,10 @@ class SnapshotsController < ApplicationController
     respond_to do |format|
       if Snapshot.create_tracker new_snapshot_params
         format.html { redirect_to snapshots_path, notice: 'Snapshot was successfully created.' }
+        format.json { render json: { status: :ok } }
       else
         format.html { render :new }
-        format.json { render status: :unprocessable_entity }
+        format.json { render json: { status: :failed } }
       end
     end
   end
@@ -61,7 +62,7 @@ class SnapshotsController < ApplicationController
   # GET /snapshots/api_spec
   # GET /snapshots/api_spec.json
   def api_spec
-    snapshot = Snapshot.find_by(project_id: params[:project_id],
+    snapshot = Snapshot.find_by(project_id: params[:project_id].to_i,
                                 data_name: 'activities',
                                 origin: 'pivotal_tracker')
     if snapshot.nil?
