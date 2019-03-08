@@ -92,5 +92,17 @@ RSpec.describe Snapshot, type: :model do
         .to change { stories.length }.by(1)
     end
   end
+
+  context 'story_transitions' do
+    it 'collects transitions of a story' do
+      s = Snapshot.new(content: activities.to_json)
+      expect(s.story_transitions(160837077).length).to eql(2)
+    end
+
+    it 'has the value correctly' do
+      transitions = Snapshot.new(content: activities.to_json).story_transitions(160837077)
+      expect(transitions.first).to include(:kind, :state, :story_id, :project_id, :project_version, :occurred_at, :performed_by_id)
+    end
+  end
 end
 

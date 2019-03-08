@@ -166,4 +166,26 @@ class Snapshot < ApplicationRecord
     end
 
   end
+
+  def story_transitions(sid)
+    activities = JSON.parse(content, symbolize_names: true)
+    activities.inject([]) do |transitions, activity|
+      activity[:changes].each do |update|
+        next unless activity[:primary_resources].first[:id].eql?(sid)
+        next unless update[:change_type].eql?('update') && update[:new_values].key?(:current_state)
+
+        transition = { kind: 'story_transition',
+                       state: update[:new_values][:current_state],
+                       story_id: update[:id],
+                       project_id: activity[:project][:id],
+                       project_version: activity[:project_version],
+                       occurred_at: activity[:occurred_at],
+                       performed_by_id: activity[:performed_by][:id] }
+        transitions.append(transition)
+      end
+      transitions
+    end
+  end
+
+
 end

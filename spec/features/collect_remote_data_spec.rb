@@ -8,6 +8,8 @@ end
 RSpec.feature 'Collect data from remote', type: :feature do
   before :each do
     stub_tracker
+    Snapshot.tracker_stories(1)
+    Snapshot.tracker_activities(1)
   end
 
   scenario 'collect pivotal tracker data' do
@@ -32,5 +34,10 @@ RSpec.feature 'Collect data from remote', type: :feature do
     # It reverses the last two activities
     visit stories_extended_api_path(pid: 1, at_time: t_before_second_activity)
     expect(page).to have_text('2018-12-17T18:59:32Z')
+  end
+
+  scenario 'query story transitions' do
+    visit transitions_extended_api_path(pid: 1, sid: 160837077)
+    expect(page).to have_text('2018-12-17T18:59:56Z')
   end
 end
