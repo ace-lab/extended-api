@@ -3,6 +3,10 @@ module TrackerData
     @tracker_stories ||= JSON.parse(file_fixture('tracker_stories.json').read, symbolize_names: true)
   end
 
+  def activities
+    @tracker_activities ||= JSON.parse(file_fixture('tracker_activities.json').read, symbolize_names: true)
+  end
+
   def update_activity
     @tracker_update_activity ||= JSON.parse(file_fixture('tracker_story_update_activity.json').read, symbolize_names: true)
   end
