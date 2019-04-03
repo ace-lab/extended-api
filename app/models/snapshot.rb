@@ -55,6 +55,8 @@ class Snapshot < ApplicationRecord
     # get the view of stories by replay
     def replay_stories_at(project, time_at)
       activities = tracker_activities(project).select { |el| Time.iso8601(el[:occurred_at]) < time_at}
+      return [] if activities.empty?
+
       snapshot = reuse_snapshot(activities.first, project)
       return JSON.parse(snapshot.content, symbolize_names: true) unless snapshot.nil?
 

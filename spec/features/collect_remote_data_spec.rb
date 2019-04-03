@@ -22,7 +22,8 @@ RSpec.feature 'Collect data from remote', type: :feature do
 
   scenario 'query the very beginning of the project' do
     visit stories_extended_api_path(pid: 1, at_time: 0)
-    expect(page).to have_text('[]')
+    stories = JSON.parse(page.body)
+    expect(stories.length).to eql(0)
   end
 
   scenario 'query the latest view' do
