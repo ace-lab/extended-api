@@ -24,6 +24,10 @@ module TrackerReplay
         next unless change[:id].eql? sid
 
         story_ind = @stories.find_index { |s| s[:id].eql? sid }
+        if story_ind.nil?
+          @stories.push(act[:primary_resources].first)
+          story_ind = @stories.length - 1
+        end
         @stories[story_ind].update change[:new_values]
         reorder_story(story_ind)
       end
@@ -35,6 +39,10 @@ module TrackerReplay
         next unless change[:id].eql? sid
 
         story_ind = @stories.find_index { |s| s[:id].eql? sid }
+        if story_ind.nil?
+          @stories.push(act[:primary_resources].first)
+          story_ind = @stories.length - 1
+        end
         @stories[story_ind].update change[:new_values]
         reorder_story(story_ind)
       end
